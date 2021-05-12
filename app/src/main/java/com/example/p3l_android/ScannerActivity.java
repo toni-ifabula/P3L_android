@@ -6,6 +6,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +24,9 @@ public class ScannerActivity extends AppCompatActivity {
 
     private static final int CAMERA_PERMISSION_CODE = 100;
     private CodeScanner mCodeScanner;
+    private SharedPreferences sharedPreferences;
+    public static final int mode = Activity.MODE_PRIVATE;
+    private final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,13 +37,20 @@ public class ScannerActivity extends AppCompatActivity {
 
         CodeScannerView scannerView = findViewById(R.id.scanner_view);
         mCodeScanner = new CodeScanner(this, scannerView);
+        mCodeScanner.startPreview();
         mCodeScanner.setDecodeCallback(new DecodeCallback() {
             @Override
             public void onDecoded(@NonNull final Result result) {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Toast.makeText(getApplicationContext(), result.getText(), Toast.LENGTH_SHORT).show();
+                        sharedPreferences = context.getSharedPreferences("data_reservasi", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("id_reservasi", result.getText());
+                        editor.apply();
+
+                        Intent intent = new Intent(context, MainActivity.class);
+                        startActivity(intent);
                     }
                 });
             }
@@ -52,12 +66,12 @@ public class ScannerActivity extends AppCompatActivity {
     // Function to check and request permission.
     public void checkPermission(String permission, int requestCode)
     {
-        if (ContextCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_DENIED) {
+        if (ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_DENIED) {
             // Requesting the permission
-            ActivityCompat.requestPermissions(this, new String[] { permission }, requestCode);
+            ActivityCompat.requestPermissions(ScannerActivity.this, new String[] { permission }, requestCode);
         }
         else {
-            Toast.makeText(this, "Camera permission already granted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Camera permission already granted", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -75,10 +89,10 @@ public class ScannerActivity extends AppCompatActivity {
                 grantResults);
 
         if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Camera Permission Granted", Toast.LENGTH_SHORT) .show();
+            Toast.makeText(context, "Camera Permission Granted", Toast.LENGTH_SHORT) .show();
         }
         else {
-            Toast.makeText(this, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Camera Permission Denied", Toast.LENGTH_SHORT).show();
         }
     }
 

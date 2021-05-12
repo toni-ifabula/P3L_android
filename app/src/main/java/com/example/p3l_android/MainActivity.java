@@ -9,10 +9,30 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.p3l_android.API.MenuAPI;
+import com.example.p3l_android.API.ReservasiAPI;
+import com.example.p3l_android.Models.DaftarMenu;
 import com.google.android.material.navigation.NavigationView;
+import com.muddzdev.styleabletoast.StyleableToast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import static com.android.volley.Request.Method.GET;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -20,7 +40,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
-    FragmentManager fragmentManager;
+    private FragmentManager fragmentManager;
+    private final Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +99,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             changeFragment(new DashboardFragment());
         } else if (id == R.id.nav_menu) {
             changeFragment(new MenuFragment());
-        } else if (id == R.id.nav_pesanan) {
-
+        } else if (id == R.id.nav_infoReservasi) {
+            changeFragment(new InfoReservasiFragment());
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
