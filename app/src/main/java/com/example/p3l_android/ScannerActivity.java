@@ -24,9 +24,8 @@ public class ScannerActivity extends AppCompatActivity {
 
     private static final int CAMERA_PERMISSION_CODE = 100;
     private CodeScanner mCodeScanner;
-    private SharedPreferences sharedPreferences;
-    public static final int mode = Activity.MODE_PRIVATE;
     private final Context context = this;
+    private MyApplication myApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +43,11 @@ public class ScannerActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        sharedPreferences = context.getSharedPreferences("data_reservasi", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("id_reservasi", result.getText());
-                        editor.apply();
+                        myApplication = (MyApplication) getApplicationContext();
+                        myApplication.setIdReservasi(result.getText());
 
                         Intent intent = new Intent(context, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }
                 });

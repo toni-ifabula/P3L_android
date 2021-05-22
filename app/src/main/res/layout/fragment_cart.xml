@@ -3,10 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".MenuFragment"
-    android:background="#FFFFFF"
-    android:id="@+id/fragment_menu">
+    tools:context=".CartFragment"
+    android:background="@color/white"
+    android:id="@+id/fragment_cart">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
@@ -20,15 +19,5 @@
             android:padding="5dp" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:contentDescription="cart"
-        app:srcCompat="@drawable/ic_baseline_shopping_cart_24"
-        app:backgroundTint="#D34841"/>
 
 </FrameLayout>

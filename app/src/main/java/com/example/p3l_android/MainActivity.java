@@ -9,30 +9,16 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.p3l_android.API.MenuAPI;
-import com.example.p3l_android.API.ReservasiAPI;
-import com.example.p3l_android.Models.DaftarMenu;
 import com.google.android.material.navigation.NavigationView;
 import com.muddzdev.styleabletoast.StyleableToast;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import static com.android.volley.Request.Method.GET;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -42,11 +28,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NavigationView navigationView;
     private FragmentManager fragmentManager;
     private final Context context = this;
+    private MyApplication myApplication;
+    private String idReservasi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        myApplication = (MyApplication) getApplicationContext();
+        idReservasi = myApplication.getIdReservasi();
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         toggle = new ActionBarDrawerToggle(
@@ -61,10 +52,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.setCheckedItem(R.id.nav_dashboard);      // default selected item
 
-        changeFragment(new DashboardFragment());
+        showFragment(new DashboardFragment());
     }
 
-    public void changeFragment(Fragment fragment) {
+    public void showFragment(Fragment fragment) {
         fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.frame_layout, fragment).commit();
     }
@@ -92,19 +83,37 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        Fragment fragment = null;
-        fragmentManager = getSupportFragmentManager();
-
         if (id == R.id.nav_dashboard) {
-            changeFragment(new DashboardFragment());
+            showFragment(new DashboardFragment());
         } else if (id == R.id.nav_menu) {
-            changeFragment(new MenuFragment());
+            showFragment(new MenuFragment());
+        } else if (id == R.id.nav_scanQR) {
+            Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_infoReservasi) {
-            changeFragment(new InfoReservasiFragment());
+            if(idReservasi != null && !idReservasi.isEmpty()) {
+                showFragment(new InfoReservasiFragment());
+            } else {
+                showErrorToast("Anda Belum Scan QR");
+            }
+        } else if (id == R.id.nav_pesanan) {
+            if (idReservasi != null && !idReservasi.isEmpty()) {
+                showFragment(new PesananFragment());
+            } else {
+                showErrorToast("Anda Belum Scan QR");
+            }
         }
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void showErrorToast(String message){
+        new StyleableToast.Builder(context)
+                .text(message)
+                .textColor(Color.BLACK)
+                .backgroundColor(Color.RED)
+                .show();
     }
 }

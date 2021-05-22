@@ -1,14 +1,11 @@
 package com.example.p3l_android;
 
 import android.app.ProgressDialog;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -20,7 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -30,7 +26,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.p3l_android.API.MenuAPI;
 import com.example.p3l_android.Adapters.MenuAdapter;
 import com.example.p3l_android.Models.DaftarMenu;
-import com.google.android.material.progressindicator.CircularProgressIndicator;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.muddzdev.styleabletoast.StyleableToast;
 
 import org.json.JSONArray;
@@ -45,6 +41,7 @@ import static com.android.volley.Request.Method.GET;
 public class MenuFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
+    private FloatingActionButton floatingActionButton;
     private RecyclerView recyclerView;
     private MenuAdapter adapter;
     private List<DaftarMenu> listDaftarMenu;
@@ -64,12 +61,20 @@ public class MenuFragment extends Fragment {
         loadDaftarMenu();
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
+        floatingActionButton = view.findViewById(R.id.floating_action_button);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 loadDaftarMenu();
                 swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((MainActivity)getActivity()).showFragment(new CartFragment());
             }
         });
 
@@ -156,6 +161,7 @@ public class MenuFragment extends Fragment {
                         //mengubah data jsonArray tertentu menjadi object
                         JSONObject jsonObject = (JSONObject) jsonArray.get(i);
 
+                        String idMenu       = jsonObject.optString("ID_MENU");
                         String nama         = jsonObject.optString("NAMA_MENU");
                         String kategori        = jsonObject.optString("KATEGORI_MENU");
                         String deskripsi        = jsonObject.optString("DESKRIPSI_MENU");
@@ -165,7 +171,7 @@ public class MenuFragment extends Fragment {
 
                         //membuat objek
                         DaftarMenu daftarMenu =
-                                new DaftarMenu(nama, kategori, deskripsi, unit, gambar, harga);
+                                new DaftarMenu(idMenu, nama, kategori, deskripsi, unit, gambar, harga);
 
                         //menambahkan obejk tadi ke list
                         listDaftarMenu.add(daftarMenu);

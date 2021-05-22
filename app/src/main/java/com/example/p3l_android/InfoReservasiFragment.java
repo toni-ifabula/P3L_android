@@ -25,13 +25,15 @@ import com.muddzdev.styleabletoast.StyleableToast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 import static com.android.volley.Request.Method.GET;
 
 public class InfoReservasiFragment extends Fragment {
 
     private View view;
-    private SharedPreferences sharedPreferences;
-    private String id_reservasi;
+    private MyApplication myApplication;
+    private String idReservasi, namaCustomer, nomorMeja;
     private TextView tvNama, tvNomor;
 
     @Override
@@ -45,15 +47,17 @@ public class InfoReservasiFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_info_reservasi, container, false);
 
-        sharedPreferences = view.getContext().getSharedPreferences("data_reservasi", Context.MODE_PRIVATE);
-        id_reservasi = sharedPreferences.getString("id_reservasi", "");
+        myApplication = (MyApplication) Objects.requireNonNull(getActivity()).getApplicationContext();
+        idReservasi = myApplication.getIdReservasi();
+        namaCustomer = myApplication.getNamaCustomer();
+        nomorMeja = myApplication.getNomorMeja();
 
-        getReservasiData(id_reservasi);
+        getReservasiData(idReservasi);
 
         tvNama = view.findViewById(R.id.tvNama);
         tvNomor = view.findViewById(R.id.tvNomor);
-        tvNama.setText(sharedPreferences.getString("nama_customer", ""));
-        tvNomor.setText(sharedPreferences.getString("nomor_meja", ""));
+        tvNama.setText(namaCustomer);
+        tvNomor.setText(nomorMeja);
 
         return view;
     }
@@ -81,10 +85,9 @@ public class InfoReservasiFragment extends Fragment {
                     //mengambil data response json object yang berupa data
                     JSONObject jsonObjectCustomer = response.getJSONObject("dataCustomer");
                     JSONObject jsonObjectMeja = response.getJSONObject("dataMeja");
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("nama_customer", jsonObjectCustomer.optString("NAMA_CUSTOMER"));
-                    editor.putString("nomor_meja", jsonObjectMeja.optString("NOMOR_MEJA"));
-                    editor.apply();
+
+                    myApplication.setNamaCustomer(jsonObjectCustomer.optString("NAMA_CUSTOMER"));
+                    myApplication.setNomorMeja(jsonObjectMeja.optString("NOMOR_MEJA"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();

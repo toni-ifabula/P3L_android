@@ -4,10 +4,11 @@ import java.io.Serializable;
 
 public class DaftarMenu implements Serializable {
 
-    private String nama, kategori, deskripsi, unit, image;
+    private String idMenu, nama, kategori, deskripsi, unit, image;
     private Integer harga;
 
-    public DaftarMenu(String nama, String kategori, String deskripsi, String unit, String image, Integer harga) {
+    public DaftarMenu(String idMenu, String nama, String kategori, String deskripsi, String unit, String image, Integer harga) {
+        this.idMenu = idMenu;
         this.nama = nama;
         this.kategori = kategori;
         this.deskripsi = deskripsi;
@@ -15,6 +16,10 @@ public class DaftarMenu implements Serializable {
         this.harga = harga;
         this.image = image;
     }
+
+    public String getIdMenu() { return idMenu; }
+
+    public void setIdMenu(String idMenu) { this.idMenu = idMenu; }
 
     public String getNama() {
         return nama;

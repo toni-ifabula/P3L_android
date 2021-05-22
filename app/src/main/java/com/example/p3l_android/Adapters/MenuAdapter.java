@@ -1,12 +1,15 @@
 package com.example.p3l_android.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -14,8 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.p3l_android.CartFragment;
+import com.example.p3l_android.Models.Cart;
 import com.example.p3l_android.Models.DaftarMenu;
+import com.example.p3l_android.MyApplication;
 import com.example.p3l_android.R;
+import com.muddzdev.styleabletoast.StyleableToast;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -28,6 +35,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.adapterMenuVie
     private List<DaftarMenu> daftarMenuListFiltered;
     private Context context;
     private View view;
+    private MyApplication myApplication;
+    private List<Cart> cartList = new ArrayList<>();
 
     public MenuAdapter(Context context, List<DaftarMenu> daftarMenuList) {
         this.context = context;
@@ -47,6 +56,8 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.adapterMenuVie
     @Override
     public void onBindViewHolder(@NonNull MenuAdapter.adapterMenuViewHolder holder, int position) {
         final DaftarMenu daftarMenu = daftarMenuListFiltered.get(position);
+        myApplication = (MyApplication) context.getApplicationContext();
+        String idReservasi = myApplication.getIdReservasi();
 
         NumberFormat formatter = new DecimalFormat("#,###");
         holder.tvNama.setText(daftarMenu.getNama());
@@ -58,6 +69,24 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.adapterMenuVie
                 .load(daftarMenu.getImage())
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into(holder.ivGambar);
+
+        holder.btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(idReservasi != null && !idReservasi.isEmpty()) {
+                    String idMenu = daftarMenu.getIdMenu();
+                    String nama = daftarMenu.getNama();
+                    int harga = daftarMenu.getHarga();
+
+                    Cart cart = new Cart(idMenu, nama, harga, 0, 0);
+                    cartList.add(cart);
+                    MyApplication myApplication = (MyApplication) context.getApplicationContext();
+                    myApplication.setCartList(cartList);
+                } else {
+                    showErrorToast("Anda Belum Scan QR");
+                }
+            }
+        });
     }
 
     @Override
@@ -69,6 +98,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.adapterMenuVie
         private TextView tvNama, tvKategori, tvDeskripsi, tvUnit, tvHarga;
         private ImageView ivGambar;
         private CardView cardView;
+        private Button btnAddToCart;
 
         public adapterMenuViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,6 +109,7 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.adapterMenuVie
             tvHarga = itemView.findViewById(R.id.tvHarga);
             ivGambar = itemView.findViewById(R.id.ivGambar);
             cardView = itemView.findViewById(R.id.cardMenu);
+            btnAddToCart = itemView.findViewById(R.id.btnAddToCart);
         }
     }
 
@@ -110,6 +141,14 @@ public class MenuAdapter extends RecyclerView.Adapter<MenuAdapter.adapterMenuVie
                 notifyDataSetChanged();
             }
         };
+    }
+
+    public void showErrorToast(String message){
+        new StyleableToast.Builder(context)
+                .text(message)
+                .textColor(Color.BLACK)
+                .backgroundColor(Color.RED)
+                .show();
     }
 
 }
