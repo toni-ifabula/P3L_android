@@ -9,7 +9,7 @@ import java.util.List;
 
 public class MyApplication extends Application {
 
-    private String idReservasi, namaCustomer, nomorMeja;
+    private String idReservasi, namaCustomer, nomorMeja, idPesanan;
     private List<Cart> cartList = new ArrayList<>();
 
     public String getIdReservasi() {
@@ -42,5 +42,13 @@ public class MyApplication extends Application {
 
     public void setCartList(List<Cart> cartList) {
         this.cartList = cartList;
+    }
+
+    public String getIdPesanan() {
+        return idPesanan;
+    }
+
+    public void setIdPesanan(String idPesanan) {
+        this.idPesanan = idPesanan;
     }
 }

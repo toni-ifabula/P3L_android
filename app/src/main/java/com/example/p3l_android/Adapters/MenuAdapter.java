@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.Filter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -17,7 +16,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.example.p3l_android.CartFragment;
 import com.example.p3l_android.Models.Cart;
 import com.example.p3l_android.Models.DaftarMenu;
 import com.example.p3l_android.MyApplication;

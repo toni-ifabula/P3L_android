@@ -49,15 +49,11 @@ public class InfoReservasiFragment extends Fragment {
 
         myApplication = (MyApplication) Objects.requireNonNull(getActivity()).getApplicationContext();
         idReservasi = myApplication.getIdReservasi();
-        namaCustomer = myApplication.getNamaCustomer();
-        nomorMeja = myApplication.getNomorMeja();
 
         getReservasiData(idReservasi);
 
         tvNama = view.findViewById(R.id.tvNama);
         tvNomor = view.findViewById(R.id.tvNomor);
-        tvNama.setText(namaCustomer);
-        tvNomor.setText(nomorMeja);
 
         return view;
     }
@@ -88,6 +84,9 @@ public class InfoReservasiFragment extends Fragment {
 
                     myApplication.setNamaCustomer(jsonObjectCustomer.optString("NAMA_CUSTOMER"));
                     myApplication.setNomorMeja(jsonObjectMeja.optString("NOMOR_MEJA"));
+
+                    tvNama.setText(myApplication.getNamaCustomer());
+                    tvNomor.setText(myApplication.getNomorMeja());
 
                 } catch (JSONException e) {
                     e.printStackTrace();

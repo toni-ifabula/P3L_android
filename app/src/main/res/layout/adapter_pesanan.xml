@@ -9,39 +9,45 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="5dp"
     app:cardElevation="4dp"
-    tools:context=".Adapters.CartAdapter">
+    tools:context=".Adapters.PesananAdapter">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tvJumlah"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="9x"
+                style="@style/TextAppearance.MaterialComponents.Headline6"/>
 
             <TextView
                 android:id="@+id/tvNama"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nama Menu"
+                android:layout_marginLeft="10dp"
+                android:text="Nama Menu menu menu"
                 style="@style/TextAppearance.MaterialComponents.Headline6"/>
-
-            <TextView
-                android:id="@+id/tvHarga"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Harga"
-                style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/btnDelete"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="50dp"
-            android:src="@drawable/ic_baseline_close_24" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="right|center_vertical">
+
+            <TextView
+                android:id="@+id/tvSubtotal"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rp 20.000" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

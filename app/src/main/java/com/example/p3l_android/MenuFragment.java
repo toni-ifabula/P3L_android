@@ -41,7 +41,6 @@ import static com.android.volley.Request.Method.GET;
 public class MenuFragment extends Fragment {
 
     private SwipeRefreshLayout swipeRefreshLayout;
-    private FloatingActionButton floatingActionButton;
     private RecyclerView recyclerView;
     private MenuAdapter adapter;
     private List<DaftarMenu> listDaftarMenu;
@@ -61,20 +60,12 @@ public class MenuFragment extends Fragment {
         loadDaftarMenu();
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
-        floatingActionButton = view.findViewById(R.id.floating_action_button);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 loadDaftarMenu();
                 swipeRefreshLayout.setRefreshing(false);
-            }
-        });
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((MainActivity)getActivity()).showFragment(new CartFragment());
             }
         });
 
