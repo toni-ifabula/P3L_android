@@ -9,4 +9,5 @@ public class PesananAPI {
     public static final String URL_UPDATE   = ROOT_API + "pesanan/";
     public static final String URL_DELETE   = ROOT_API + "pesanan/";
     public static final String URL_CHECK      = ROOT_API + "checkPesanan/"; //check by ID reservasi
+    public static final String URL_UPDATE_TOTAL      = ROOT_API + "totalPesanan/";
 }

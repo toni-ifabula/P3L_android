@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,21 +36,25 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.ContentValues.TAG;
 import static com.android.volley.Request.Method.GET;
 
 public class PesananFragment extends Fragment {
 
     private View view;
-    private TextView tvIdPesanan;
+    private TextView tvIdPesanan, tvSubtotalBottom;
     private MyApplication myApplication;
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private PesananAdapter adapter;
     private List<DetailPesanan> detailPesananList;
     private String idPesanan;
+    private int subtotalBottom;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -66,9 +71,11 @@ public class PesananFragment extends Fragment {
         idPesanan = myApplication.getIdPesanan();
 
         tvIdPesanan = view.findViewById(R.id.tvIdPesanan);
-        tvIdPesanan.setText(myApplication.getIdPesanan());
+        tvIdPesanan.setText("ID Pesanan : " + myApplication.getIdPesanan());
 
         loadDaftarPesanan();
+
+        tvSubtotalBottom = view.findViewById(R.id.tvSubtotalBottom);
 
         swipeRefreshLayout = view.findViewById(R.id.swipe_refresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -118,6 +125,7 @@ public class PesananFragment extends Fragment {
             public void onResponse(JSONObject response) {
                 //bagian jika response berhasil
                 progressDialog.dismiss();
+                subtotalBottom = 0;
                 try {
                     //mengambil data response json object yang berupa data
                     JSONArray jsonArray = response.getJSONArray("data");
@@ -132,6 +140,8 @@ public class PesananFragment extends Fragment {
                         String nama         = jsonObject.optString("NAMA_MENU");
                         int jumlah       = jsonObject.optInt("JUMLAH_ITEM_PESANAN");
                         int subtotal        = jsonObject.optInt("SUBTOTAL_ITEM_PESANAN");
+                        subtotalBottom = subtotalBottom + subtotal;
+
                         //membuat objek
                         DetailPesanan detailPesanan =
                                 new DetailPesanan(nama, jumlah, subtotal);
@@ -148,6 +158,8 @@ public class PesananFragment extends Fragment {
                         .textColor(Color.BLACK)
                         .backgroundColor(Color.GREEN)
                         .show();
+                NumberFormat formatter = new DecimalFormat("#,###");
+                tvSubtotalBottom.setText(formatter.format(subtotalBottom));
             }
         }, new Response.ErrorListener() {
             @Override

@@ -6,51 +6,130 @@
     android:background="@color/white"
     tools:context=".InfoReservasiFragment">
 
+    <com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/cardCart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="4dp">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Nama Customer : "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ID Reservasi"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
                 android:textColor="@color/black"/>
 
             <TextView
-                android:id="@+id/tvNama"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama Customer"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/black"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:text="qwerty" />
+                android:text="No. Telepon"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Email"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Nomor Meja"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:text="Sesi Reservasi"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
 
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginLeft="30dp"
+            android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tvIdReservasi"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="Nomor Meja : "
-                android:textColor="@color/black"/>
+                android:text=" : 41"
+                android:textColor="@color/black"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+
+            <TextView
+                android:id="@+id/tvNama"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" : qwerty"
+                android:textColor="@color/black"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+
+            <TextView
+                android:id="@+id/tvTelepon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" : null"
+                android:textColor="@color/black"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=" : null"
+                android:textColor="@color/black"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
 
             <TextView
                 android:id="@+id/tvNomor"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textColor="@color/black"
-                android:text="141" />
+                android:text=" : 141"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+
+            <TextView
+                android:id="@+id/tvSesi"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textColor="@color/black"
+                android:text=" : Dinner"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"/>
 
         </LinearLayout>
 
     </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
 
 </FrameLayout>

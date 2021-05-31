@@ -34,7 +34,7 @@ public class InfoReservasiFragment extends Fragment {
     private View view;
     private MyApplication myApplication;
     private String idReservasi, namaCustomer, nomorMeja;
-    private TextView tvNama, tvNomor;
+    private TextView tvNama, tvNomor, tvIdReservasi, tvTelepon, tvEmail, tvSesi;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,6 +54,10 @@ public class InfoReservasiFragment extends Fragment {
 
         tvNama = view.findViewById(R.id.tvNama);
         tvNomor = view.findViewById(R.id.tvNomor);
+        tvIdReservasi = view.findViewById(R.id.tvIdReservasi);
+        tvTelepon = view.findViewById(R.id.tvTelepon);
+        tvEmail = view.findViewById(R.id.tvEmail);
+        tvSesi = view.findViewById(R.id.tvSesi);
 
         return view;
     }
@@ -79,14 +83,19 @@ public class InfoReservasiFragment extends Fragment {
                 progressDialog.dismiss();
                 try {
                     //mengambil data response json object yang berupa data
+                    JSONObject jsonObjectReservasi = response.getJSONObject("dataReservasi");
                     JSONObject jsonObjectCustomer = response.getJSONObject("dataCustomer");
                     JSONObject jsonObjectMeja = response.getJSONObject("dataMeja");
 
-                    myApplication.setNamaCustomer(jsonObjectCustomer.optString("NAMA_CUSTOMER"));
-                    myApplication.setNomorMeja(jsonObjectMeja.optString("NOMOR_MEJA"));
+//                    myApplication.setNamaCustomer(jsonObjectCustomer.optString("NAMA_CUSTOMER"));
+//                    myApplication.setNomorMeja(jsonObjectMeja.optString("NOMOR_MEJA"));
 
-                    tvNama.setText(myApplication.getNamaCustomer());
-                    tvNomor.setText(myApplication.getNomorMeja());
+                    tvNama.setText(" : " + jsonObjectCustomer.optString("NAMA_CUSTOMER"));
+                    tvNomor.setText(" : " + jsonObjectMeja.optString("NOMOR_MEJA"));
+                    tvIdReservasi.setText(" : " + jsonObjectReservasi.optString("ID_RESERVASI"));
+                    tvEmail.setText(" : " + jsonObjectCustomer.optString("EMAIL_CUSTOMER"));
+                    tvSesi.setText(" : " + jsonObjectReservasi.optString("SESI_RESERVASI"));
+                    tvTelepon.setText(" : " + jsonObjectCustomer.optString("TELEPON_CUSTOMER"));
 
                 } catch (JSONException e) {
                     e.printStackTrace();
